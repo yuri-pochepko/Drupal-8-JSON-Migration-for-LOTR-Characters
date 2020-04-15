@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {  }
+id: json_lotr
+label: JSON LOTR Migration
+description: 'Get Lord of Rings characters into your site'
+source_type: ''
+module: null

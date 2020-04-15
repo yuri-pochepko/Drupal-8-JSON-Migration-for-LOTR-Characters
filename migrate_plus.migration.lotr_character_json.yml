@@ -1,0 +1,76 @@
+id: json_lotr_character
+label: Migration of LOTR Characters
+migration_group: json_lotr
+source:
+  plugin: url
+  urls: 'https://the-one-api.herokuapp.com/v1/character'
+  data_fetcher_plugin: http
+  headers:
+    Authorization: Bearer SECRET
+  data_parser_plugin: json
+  include_raw_data: true
+  item_selector: docs
+  fields:
+    -
+      name: characterId
+      label: 'Character ID'
+      selector: _id
+    -
+      name: characterName
+      label: 'Character Name'
+      selector: name
+    -
+      name: characterRace
+      label: 'Character Race'
+      selector: race
+    -
+      name: characterGender
+      label: 'Character Gender'
+      selector: gender
+    -
+      name: characterBirth
+      label: 'Character Birth'
+      selector: birth
+    -
+      name: characterDeath
+      label: 'Character Death'
+      selector: death
+    -
+      name: characterRealm
+      label: 'Character Realm'
+      selector: realm
+    -
+      name: characterWiki
+      label: 'Character Wiki URL'
+      selector: wikiUrl
+  ids:
+    characterId:
+      type: string
+process:
+  title:
+    plugin: concat
+    source:
+      - characterName
+      - characterRace
+    delimiter: ', '
+  field_character_race:
+    plugin: get
+    source: characterRace
+  field_character_gender:
+    plugin: get
+    source: characterGender
+  field_character_birth:
+    plugin: get
+    source: characterBirth
+  field_character_death:
+    plugin: get
+    source: characterDeath
+  field_character_realm:
+    plugin: get
+    source: characterRealm
+  field_character_wiki/uri: 
+    plugin: get
+    source: characterWiki
+destination:
+  plugin: entity:node
+  default_bundle: character
